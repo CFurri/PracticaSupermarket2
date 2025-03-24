@@ -1,6 +1,6 @@
 import java.util.Scanner;
 public class Main{
-
+//comprovació commit
     public static void menuPrincipal(){
         Scanner scanner = new Scanner(System.in);
         //Per llegir l'entrada de l'usuari
