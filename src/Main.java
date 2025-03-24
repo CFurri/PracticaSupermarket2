@@ -26,7 +26,7 @@ public class Main{
 
     }
 
-    ///MENÚ DE GESTIÓ DE PRODUCTES///
+    //MENÚ DE GESTIÓ DE PRODUCTES///
     public static void menuDeGestioDeProductes(){
 
     }
@@ -43,7 +43,7 @@ public class Main{
 
     }
 
-    ///MENÚ DE GESTIÓ DE COMPRES I VENDES///
+    //MENÚ DE GESTIÓ DE COMPRES I VENDES///
     public static void menuDeGestioDeCompresIVendes(){
 
     }
@@ -61,19 +61,19 @@ public class Main{
     }
     public static void main (String[] args){
 
-        ///MENÚ PRINCIPAL///
+        //MENÚ PRINCIPAL///
         menuPrincipal();
         gestioDeProductes();
         gestioDeCompresIVendes();
 
-        ///MENÚ DE GESTIÓ DE PRODCUTES///
+        //MENÚ DE GESTIÓ DE PRODCUTES///
         menuDeGestioDeProductes();
         afegir();
         eliminar();
         llistarProductes();
         tornar();
 
-        ///MENÚ DE GESTIÓ DE COMPRES I VENDES///
+        //MENÚ DE GESTIÓ DE COMPRES I VENDES///
         menuDeGestioDeCompresIVendes();
         compra();
         venda();
@@ -81,7 +81,7 @@ public class Main{
         tornar();
 
 
-        /// MOC acabar(); per fer una sortida més simple
+        // MOC acabar(); per fer una sortida més simple
         acabar();
 
 
