@@ -1,7 +1,8 @@
 import java.util.Scanner;
+
 public class Main{
 //comprovació commit
-    public static void menuPrincipal(String[] productes, int[] estocs){
+    public static void menuPrincipal(String[] productes, int[] estocs, int numProductes){
         Scanner scanner = new Scanner(System.in); //Per llegir l'entrada de l'usuari
 
         //Mostra les opcions del Menú Principal
@@ -14,25 +15,24 @@ public class Main{
         //Navegació del menú
         switch (navegacio) {
             case 1:
-                menuDeGestioDeProductes(productes, estocs);
+                menuDeGestioDeProductes(productes, estocs, numProductes);
                 break;
             case 2:
-                menuDeGestioDeCompresIVendes(productes, estocs);
+                menuDeGestioDeCompresIVendes(productes, estocs, numProductes);
                 break;
             case 9:
                 acabarPrograma();
                 break;
             default:
                 System.out.println("Opció incorrecta. Torna-ho a provar.");
-                menuPrincipal(productes, estocs);
+                menuPrincipal(productes, estocs, numProductes);
                 break;
         }
     }
 
     //MENÚ DE GESTIÓ DE PRODUCTES///
-    public static void menuDeGestioDeProductes(String[] productes, int[] estocs){
+    public static void menuDeGestioDeProductes(String[] productes, int[] estocs, int numProductes){
         Scanner scanner = new Scanner(System.in);
-        int numProductes = 0; //L'índex de la taula String[]
 
         System.out.println("Benvingut al Menú de Gestió de Productes");
         System.out.println("1. Afegir");
@@ -45,17 +45,16 @@ public class Main{
                 numProductes = afegirProducte(productes, estocs, numProductes);
                 break;
             case 2:
-                eliminarProducte(productes, estocs, numProductes);
+                numProductes = eliminarProducte(productes, estocs, numProductes);
                 break;
             case 3:
                 llistarProductes(productes, estocs, numProductes);
                 break;
             case 9:
-                tornar(productes, estocs);
-                break;
+                tornar(productes, estocs, numProductes);
             default:
                 System.out.println("Opció incorrecta. Torna-ho a provar.");
-                menuDeGestioDeProductes(productes, estocs);
+                menuDeGestioDeProductes(productes, estocs, numProductes);
                 break;
         }
     }
@@ -71,11 +70,11 @@ public class Main{
             System.out.println("Producte " + nomNouProducte + " afegit correctament.");
             numProductes++; //Incrementem
         }
-        menuDeGestioDeProductes(productes, estocs); //Tornem a cridar perquè no acabi el programa
+        menuDeGestioDeProductes(productes, estocs, numProductes); //Tornem a cridar perquè no acabi el programa
         return numProductes; // Per retornar el valor/índex de productes afegits i que la taula vaig sent coherent
 
     }
-    public static void eliminarProducte(String[] productes, int[] estocs, int numProductes){
+    public static int eliminarProducte(String[] productes, int[] estocs, int numProductes){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Escriu el nom del producte que vols eliminar: ");
         String producteAEliminar = scanner.nextLine();
@@ -90,23 +89,39 @@ public class Main{
                 estocs[numProductes - 1] = 0;
 
                 System.out.println(producteAEliminar + " eliminat.");
-                return; //Per retornar a la funció que ha fet la crida
+
+                numProductes--;
+
+                menuDeGestioDeProductes(productes, estocs, numProductes);
+                return numProductes;
             }
         }
+        return numProductes;
     }
 
     public static void llistarProductes(String[] productes, int[] estocs, int numProductes){
+        Scanner scanner = new Scanner(System.in);
+
         if (numProductes == 0) {
             System.out.println("Encara no hi ha productes.");
             return;
         }
-        for (int i = 0; i < numProductes; i++){
-            System.out.println("Producte: " + productes[i] + "|| Estoc: " + estocs[i]);
+        System.out.println("Escriu el número: ");
+        int posicio = scanner.nextInt();
+
+        if (posicio == 0) {
+            System.out.println("Operació cancel·lada.");
+        } else if (posicio >= 1 && posicio <= numProductes) {
+            // Aquí podries fer alguna acció amb el producte seleccionat
+            System.out.println("Has seleccionat el producte: " + productes[posicio - 1] + " amb " + estocs[posicio - 1] + " unitats en estoc.");
+        } else {
+            System.out.println("Posició incorrecta. Torna-ho a provar.");
         }
+        menuDeGestioDeProductes(productes, estocs, numProductes); //Per tornar directament al menú
     }
 
     //MENÚ DE GESTIÓ DE COMPRES I VENDES///
-    public static void menuDeGestioDeCompresIVendes(String[] productes, int[] estocs){
+    public static void menuDeGestioDeCompresIVendes(String[] productes, int[] estocs, int numProductes){
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Benvingut al Menú de Gestió de Compres i Vendes");
@@ -117,48 +132,106 @@ public class Main{
         int navegacio = scanner.nextInt();
         switch(navegacio){
             case 1:
-                comprarProducte();
+                comprarProducte(productes, estocs, numProductes);
                 break;
             case 2:
-                vendaProducte();
+                vendaProducte(productes, estocs, numProductes);
                 break;
             case 3:
-                llistarEstocs();
+                llistarEstocs(productes, estocs, numProductes);
                 break;
             case 9:
-                tornar(productes, estocs);
+                tornar(productes, estocs, numProductes);
                 break;
             default:
                 System.out.println("Opció incorrecta. Torna-ho a provar.");
-                menuDeGestioDeCompresIVendes(productes, estocs);
+                menuDeGestioDeCompresIVendes(productes, estocs, numProductes);
                 break;
         }
     }
-    public static void comprarProducte(){
+    public static void comprarProducte(String[] productes, int[]estocs, int numProductes){
+        String producteAComprar;
+        int quantitatProducteAComprar;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Quin producte vols comprar?");
+        producteAComprar = scanner.nextLine();
+        System.out.print("Introdueix la quantitat que vols comprar-ne: ");
+        quantitatProducteAComprar = scanner.nextInt();
+
+        int i = 0;
+        while (i < numProductes){
+            if (productes[i].equals(producteAComprar)){
+                estocs[i] += quantitatProducteAComprar;
+                System.out.println("Compra realitzada amb èxit.");
+                break;
+            }
+            i++;
+        }
+        if (i == numProductes){
+        System.out.println("El producte que has especificat, no existeix");
+        }
+        System.out.println("Tornant al menú de Gestió de Compres i Vendes...");
+        menuDeGestioDeProductes(productes, estocs, numProductes);
 
     }
-    public static void vendaProducte(){
+    public static void vendaProducte(String[] productes, int[] estocs, int numProductes){
+        Scanner scanner = new Scanner(System.in);
+        String productePerVendre;
+        int quantitatPerVendre;
 
+        System.out.print("Producte que vols vendre: ");
+        productePerVendre = scanner.nextLine();
+        System.out.println("Quina quantitat vols vendre del producte " + productePerVendre);
+        quantitatPerVendre = scanner.nextInt();
+
+        int i = 0;
+        while (i < numProductes){
+            if (productes[i].equals(productePerVendre)){
+                if (estocs[i] >= quantitatPerVendre){
+                    estocs[i] -= quantitatPerVendre;
+                    System.out.println("Venta realitzada amb èxit.");
+                } else {
+                    System.out.println("No hi ha prou estoc per vendre d'aquest producte");
+                }
+                break;
+            }
+            i++;
+        }
+        if (i == numProductes){
+            System.out.println("El producte que has especificat, no existeix");
+        }
+        System.out.println("Tornant al menú de Gestió de Compres i Vendes...");
+        menuDeGestioDeProductes(productes, estocs, numProductes);
     }
-    public static void llistarEstocs(){
-
+    public static void llistarEstocs(String[] productes, int[] estocs, int numProductes){
+        int i = 0;
+        if (numProductes == 0) {
+            System.out.println("No hi ha cap producte a la llista.");
+            return;
+        }
+        while (i < numProductes){
+            System.out.println("Producte: " + productes[i] + "|| Unitats: " + estocs[i]);
+            i++;
+        }
     }
 
-    // FUNCIONALITATS //
+    // FUNCIONALITATS DE NAVEGACIÓ//
 
-    public static void tornar(String[] productes, int[] estocs){
-        menuPrincipal(productes, estocs);
+    public static void tornar(String[] productes, int[] estocs, int numProductes){
+        menuPrincipal(productes, estocs, numProductes);
     }
     public static void acabarPrograma(){
-        System.out.println("Adéu Siau, quan tornis farem negocis!");
+        System.out.println("Adeu-siau, quan tornis continuarem fent negocis!");
     }
 
     // MAIN //
     public static void main (String[] args){
         String[] productes = new String[100];
         int[] estocs = new int[100];
+        int numProductes = 0; //Inicialitzem variable numProductes pel control d'índexs i el passem arreu
+
         //NAVEGACIÓ MENÚ PRINCIPAL///
-        menuPrincipal(productes, estocs);
+        menuPrincipal(productes, estocs, numProductes);
 
     }
 }
