@@ -29,7 +29,7 @@ public class Main{
                 break;
             case 9:
                 acabarPrograma();
-                break;
+                return;
             default:
                 System.out.println("Opció incorrecta. Torna-ho a provar.");
                 menuPrincipal(productes, estocs, numProductes);
@@ -40,7 +40,6 @@ public class Main{
      *MENÚ DE GESTIÓ DE PRODUCTES: Permet afegir, eliminar i llistar els productes de l'array
      * La funció rep l'array de productes i d'estocs. A més el nombre de productes que hi ha
      */
-    //MENÚ DE GESTIÓ DE PRODUCTES///
     public static void menuDeGestioDeProductes(String[] productes, int[] estocs, int numProductes){
         Scanner scanner = new Scanner(System.in); //Scanner local
 
@@ -62,6 +61,7 @@ public class Main{
                 break;
             case 9:
                 tornar(productes, estocs, numProductes);
+                return;
             default:
                 System.out.println("Opció incorrecta. Torna-ho a provar.");
                 menuDeGestioDeProductes(productes, estocs, numProductes); //Per tornar d'on hem vingut
@@ -69,8 +69,8 @@ public class Main{
         }
     }
 
-    /**
-     * Funció per afegir un nou producte a la llista de productes
+    /** AFEGIR PRODUCTES
+     * Funció per afegir un nou producte a la llista de productes String[] productes
      * La funció rep l'array de productes i d'estocs. A més el nombre de productes que hi ha
      */
     public static void afegirProducte(String[] productes, int[] estocs, int numProductes){
@@ -86,12 +86,10 @@ public class Main{
             numProductes++; //Incrementem
         }
         menuDeGestioDeProductes(productes, estocs, numProductes); //Tornem a cridar perquè no acabi el programa
-
-
     }
 
-    /**
-     * Elimina un producte de la llista de productes
+    /** ELIMINAR PRODUCTES
+     * Elimina un producte de la llista de productes String [] productes
      * a funció rep l'array de productes i d'estocs. A més el nombre de productes que hi ha
      * Retorna el nombre de productes després d'eliminar-lo.
      */
@@ -141,7 +139,7 @@ public class Main{
             System.out.println("Operació cancel·lada.");
         } else if (posicio >= 1 && posicio <= numProductes) {
             // Aquí podries fer alguna acció amb el producte seleccionat
-            System.out.println("Has seleccionat el producte: " + productes[posicio - 1] + " amb " + estocs[posicio - 1] + " unitats en estoc.");
+            System.out.println("Has seleccionat el producte: " + productes[posicio - 1] + " amb " + estocs[posicio] + " unitats en estoc.");
         } else {
             System.out.println("Posició incorrecta. Torna-ho a provar.");
         }
@@ -152,7 +150,6 @@ public class Main{
      * MENÚ DE GESTIÓ DE COMPRES I VENDES
      * La funció rep l'array de productes i d'estocs. A més el nombre de productes que hi ha
      */
-    //MENÚ DE GESTIÓ DE COMPRES I VENDES//
     public static void menuDeGestioDeCompresIVendes(String[] productes, int[] estocs, int numProductes){
         Scanner scanner = new Scanner(System.in); //Scanner local
 
@@ -174,7 +171,7 @@ public class Main{
                 break;
             case 9:
                 tornar(productes, estocs, numProductes);
-                break;
+                return;
             default:
                 System.out.println("Opció incorrecta. Torna-ho a provar.");
                 menuDeGestioDeCompresIVendes(productes, estocs, numProductes);
@@ -182,7 +179,7 @@ public class Main{
         }
     }
 
-    /**
+    /** COMPRAR PRODUCTES
      * comprarProducte() -> Fa una compra del producte especificat per l'usuari i incrementa l'estoc d'aquest.
      * La funció rep l'array de productes i d'estocs. A més el nombre de productes que hi ha
      */
@@ -206,7 +203,7 @@ public class Main{
             i++;
         }
 
-        //Si no es troba el producte
+        //Si no es troba el producte...
         if (i == numProductes){
         System.out.println("El producte que has especificat, no existeix");
         menuDeGestioDeProductes(productes, estocs, numProductes);
@@ -215,7 +212,7 @@ public class Main{
         menuDeGestioDeProductes(productes, estocs, numProductes);
     }
 
-    /**
+    /**VENDA PRODUCTE
      * Funció vendaProducte() -> permet vendre producte fent que disminueixi l'estoc del producte en qüestió
      * La funció rep l'array de productes i d'estocs. A més el nombre de productes que hi ha
      */
@@ -255,7 +252,7 @@ public class Main{
      * La funció rep l'array de productes i d'estocs. A més el nombre de productes que hi ha.
      */
     public static void llistarEstocs(String[] productes, int[] estocs, int numProductes){
-        int i = 0;  //Variable per recorrer pels índexs
+        int i = 0;  //Variable per recórrer pels índexs
         if (numProductes == 0) { // Si no hi ha productes entrats, el programa torna a la funció que l'ha cridat.
             System.out.println("No hi ha cap producte a la llista.");
             return;
@@ -268,8 +265,10 @@ public class Main{
         menuDeGestioDeCompresIVendes(productes, estocs, numProductes);
     }
 
-    // FUNCIONALITATS DE NAVEGACIÓ//
-    /** Torna al menú principal
+
+    /** FUNCIONALITATS DE NAVEGACIÓ
+     * Tornar
+     * Torna al menú principal
      * La funció rep l'array de productes i d'estocs. A més, el nombre de productes que hi ha
      */
     public static void tornar(String[] productes, int[] estocs, int numProductes){
@@ -283,9 +282,9 @@ public class Main{
         System.out.println("Adeu-siau, quan tornis continuarem fent negocis!");
     }
 
-    // MAIN //
 
-    /**
+
+    /** MAIN!
      * Mètode principal que inicialitza el programa
      * S'hi defineixen 3 variables importants que seran utilitzades durant tot el programa
      * S'hi defineix la llista de productes on s'hi guardaran els noms dels productes que entri l'usuari
