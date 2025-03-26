@@ -1,5 +1,10 @@
 import java.util.Scanner;
 
+/**
+ * @author CARLES FURRIOLS FURRIOLS - PRÀCTICA 1
+ * <p>Carles github<a href="https://github.com/CFurri/PracticaSupermarket2"></a></p>
+ */
+
 public class Main{
     /**
      * Menú principal: Permet la gestió entre els submenús.
